@@ -14,9 +14,11 @@ time_of_request = str(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")) 
 # "indonesia", "fews-world", "flood", "philippines",
 # "philippines-english-precise", "philippines-english-recall", "poland"
 
-start_time = "2016-09-10T17:00:00.000Z"
+# start_time = "2016-01-01T17:00:00.000Z"
+start_time = "2016-07-01T17:00:00.000Z"
 end_time = time_of_request
 # end_time = "2016-09-15T17:00:00.000Z"
+# database = "philippines"
 database = "indonesia"
 water_depth = "false"
 locations = "false"
@@ -80,6 +82,8 @@ def request_metadata(
 
     data = get_request()
     print('tweets between', start_time, 'and', end_time)
-    print('number of tweets: ', data['meta']['total'])
-    print('server time to process: ', data['meta']['processTime'])
-    print('total time for request call to finish: ', time.time() - start)
+    print('number of tweets:', data['meta']['total'])
+    print('server time to process:', data['meta']['processTime'])
+    print('total time for request call to finish:', time.time() - start)
+
+full_request()
