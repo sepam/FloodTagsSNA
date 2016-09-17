@@ -3,12 +3,11 @@ from igraph import *
 import pandas as pd
 
 
-# TODO: import the edge list from csv
-
+# function that generates four lists of network features
 def generate_influencers():
 
     # open up the csv and convert it into a graph object
-    #reader = csv.DictReader(open('edges2.csv'), dialect='excel')
+    # reader = csv.DictReader(open('edges2.csv'), dialect='excel')
     reader = csv.DictReader(open('edge_list.csv'), dialect='excel')
     g = Graph.DictList(edges=reader, vertices=None, directed=True)
 
@@ -29,32 +28,35 @@ def generate_influencers():
     g.vs['page_rank'] = pr_score
 
     # to put everything into a pandas dataframe gather the different columns
-
-    name = pd.Series(g.vs['name'])
-    df1 = pd.DataFrame(name, columns=['name'])
+    series = pd.Series(g.vs['name'])
+    df1 = pd.DataFrame(series, columns=['name'])
     df1['indegree'] = g.vs['in-degree']
     df1['outdegree'] = g.vs['out-degree']
     df1['pagerank'] = g.vs['page_rank']
     df1['betweenness'] = g.vs['betweenness']
 
-    #sorting the dataframe to different columns and selecting the top 10 rows, and writing it to a csv file
-    top_indegree = df1[['name','indegree']].sort_values(by='indegree', ascending=False)
+    # sorting the dataframe to different columns and selecting the top 10 rows, and writing it to a csv file
+    top_indegree = df1[['name', 'indegree']].sort_values(by='indegree', ascending=False)
     top_indegree[0:50].to_csv('top_indegree.csv', index=None)
     top_50_indegree = top_indegree[0:50]
 
-    top_outdegree = df1[['name','outdegree']].sort_values(by='outdegree', ascending=False)
+    top_outdegree = df1[['name', 'outdegree']].sort_values(by='outdegree', ascending=False)
     top_outdegree[0:50].to_csv('top_outdegree.csv', index=None)
     top_50_outdegree = top_outdegree[0:50]
 
-    top_pagerank = df1[['name','pagerank']].sort_values(by='pagerank', ascending=False)
+    top_pagerank = df1[['name', 'pagerank']].sort_values(by='pagerank', ascending=False)
     top_pagerank[0:50].to_csv('top_pagerank.csv', index=None)
     top_50_pagerank = top_pagerank[0:50]
 
-    top_betweenness = df1[['name','betweenness']].sort_values(by='betweenness', ascending=False)
+    top_betweenness = df1[['name', 'betweenness']].sort_values(by='betweenness', ascending=False)
     top_betweenness[0:50].to_csv('top_betweenness.csv', index=None)
     top_50_betweenness = top_betweenness[0:50]
 
-    return(top_50_betweenness)
+    print(top_50_indegree)
+    print(top_50_outdegree)
+    print(top_50_pagerank)
+
+    return top_50_betweenness
 
 # PRINTS OUT THE EDGELIST OF A GRAPH OBJECT OF VERTEX ID TO VERTEX ID
 # print(g.get_edgelist())

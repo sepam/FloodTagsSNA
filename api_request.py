@@ -14,8 +14,8 @@ def FloodTagsAPI_refined_tweets(
                 rq_database="indonesia",
                 rq_until="2016-09-06T17:00:00.000Z",
                 rq_since="2016-09-04T17:00:00.000Z",
-                rq_hasWaterdepth = "false",
-                rq_hasLocations = "false"
+                rq_hasWaterdepth="false",
+                rq_hasLocations="false"
                 ):
 
     def get_request(
@@ -24,8 +24,8 @@ def FloodTagsAPI_refined_tweets(
                 rq_database=rq_database,
                 rq_until=rq_until,
                 rq_since=rq_since,
-                rq_hasWaterdepth = rq_hasWaterdepth,
-                rq_hasLocations = rq_hasLocations
+                rq_hasWaterdepth=rq_hasWaterdepth,
+                rq_hasLocations=rq_hasLocations
                 ):
 
         # the amount of tags to skip from the beginning
@@ -87,8 +87,8 @@ def FloodTagsAPI_refined_tweets(
         tweets = r_json['tags']
         total_user_list = total_user_list + user_list(tweets)
         total_tweet_list = total_tweet_list + tweet_list(tweets)
-        skip = skip + rq_limit
-        #time.sleep(1)
+        skip += rq_limit
+        # time.sleep(1)
 
     # convert and merge the returned lists into a single pandas dataframe
     pd_tweets = pd.DataFrame()
@@ -97,7 +97,7 @@ def FloodTagsAPI_refined_tweets(
     pd_tweets.to_csv('pandas.csv')
 
 
-    return(pd_tweets)
+    return pd_tweets
 
 # TODO: collect all the data into a pandas dataframe with the following information: twitter username, tweet, time of tweet, retweet yes/no
 
