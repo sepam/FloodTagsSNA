@@ -6,25 +6,37 @@ import mentions_to_edgelist
 import SNA_script
 import time
 import datetime
+import argparse
 
+'''
+when calling this script from the command line, you have to pass three parameters: starting_date, ending_date and
+database.
 
+format for the dates is: YYYY-MM-DD
+
+possibilities for database are:
+indonesia", "fews-world", "flood", "philippines",
+"philippines-english-precise", "philippines-english-recall", "poland"
+'''
 time_of_request = str(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")) + '.000Z'
-
-# possibilities for database are:
-# "indonesia", "fews-world", "flood", "philippines",
-# "philippines-english-precise", "philippines-english-recall", "poland"
-
-# start_time = "2016-01-01T17:00:00.000Z"
-start_time = "2016-07-01T17:00:00.000Z"
-end_time = time_of_request
-# end_time = "2016-09-15T17:00:00.000Z"
+parser = argparse.ArgumentParser(description="Enter values for dataset request")
+parser.add_argument('starting_date', default="2016-07-01T17:00:00.000Z")
+parser.add_argument('ending_date', default=time_of_request)
+parser.add_argument('database', default='indonesia')
+args = parser.parse_args()
+starting_date = args.starting_date + 'T12:00:00.000Z'
+ending_date = args.ending_date + 'T12:00:00.000Z'
+database = args.database
+# starting_date = "2016-07-01T17:00:00.000Z"
+# ending_date = time_of_request
+# ending_date = "2016-09-15T17:00:00.000Z"
 # database = "philippines"
-database = "indonesia"
+# database = "indonesia"
 water_depth = "false"
 locations = "false"
 
 
-def full_request(start_time=start_time, end_time=end_time, database=database, water_depth=water_depth, locations=locations):
+def full_request(start_time=starting_date, end_time=ending_date, database=database, water_depth=water_depth, locations=locations):
     start = time.time()
     pd_tweets = api_request.FloodTagsAPI_refined_tweets(
         rq_database=database,
@@ -39,8 +51,8 @@ def full_request(start_time=start_time, end_time=end_time, database=database, wa
     print('It took', time.time()-start, 'seconds to complete this analysis.')
 
 def request_metadata(
-        start_time=start_time,
-        end_time=end_time,
+        start_time=starting_date,
+        end_time=ending_date,
         database=database,
         water_depth=water_depth,
         locations=locations):
