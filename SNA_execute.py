@@ -19,19 +19,19 @@ indonesia", "fews-world", "flood", "philippines",
 "philippines-english-precise", "philippines-english-recall", "poland"
 '''
 time_of_request = str(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")) + '.000Z'
-parser = argparse.ArgumentParser(description="Enter values for dataset request")
-parser.add_argument('starting_date', default="2016-07-01T17:00:00.000Z")
-parser.add_argument('ending_date', default=time_of_request)
-parser.add_argument('database', default='indonesia')
-args = parser.parse_args()
-starting_date = args.starting_date + 'T12:00:00.000Z'
-ending_date = args.ending_date + 'T12:00:00.000Z'
-database = args.database
-# starting_date = "2016-07-01T17:00:00.000Z"
-# ending_date = time_of_request
+# parser = argparse.ArgumentParser(description="Enter values for dataset request")
+# parser.add_argument('starting_date', default="2016-09-10T17:00:00.000Z", nargs='?')
+# parser.add_argument('ending_date', default=time_of_request, nargs='?')
+# parser.add_argument('database', default='indonesia', nargs='?')
+# args = parser.parse_args()
+# starting_date = args.starting_date + 'T12:00:00.000Z'
+# ending_date = args.ending_date + 'T12:00:00.000Z'
+# database = args.database
+starting_date = "2016-09-17T17:00:00.000Z"
+ending_date = time_of_request
 # ending_date = "2016-09-15T17:00:00.000Z"
 # database = "philippines"
-# database = "indonesia"
+database = "indonesia"
 water_depth = "false"
 locations = "false"
 
