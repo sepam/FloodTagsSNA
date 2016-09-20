@@ -7,7 +7,6 @@ import pandas as pd
 #     total_tweets_in_time_period = data['meta']['total']
 #     return(total_tweets_in_time_period)
 
-
 def FloodTagsAPI_refined_tweets(
                 rq_skip=0,
                 rq_limit=100,
@@ -71,6 +70,12 @@ def FloodTagsAPI_refined_tweets(
             list_of_tweets.append(data[i]['text'])
         return list_of_tweets
 
+    def date_list(data):
+        list_of_dates = []
+        for i in range(len(data)):
+            list_of_dates.append(data[i]['date'])
+        return list_of_dates
+
     # get the total number of tweets in the specified period
     initial_query = get_request(rq_limit=1)
     total_number_tweets = request_total(initial_query)
@@ -80,6 +85,7 @@ def FloodTagsAPI_refined_tweets(
     # TODO: I should get all the information in this request to minimize the amount of requests made. Therefore i have to write all data into memory, not just the userlist
     total_user_list = []
     total_tweet_list = []
+    total_dates_list = []
     skip = 0
     for i in range(total_cycles):
         rq_limit = 100
@@ -87,6 +93,7 @@ def FloodTagsAPI_refined_tweets(
         tweets = r_json['tags']
         total_user_list = total_user_list + user_list(tweets)
         total_tweet_list = total_tweet_list + tweet_list(tweets)
+        total_dates_list = total_dates_list + date_list(tweets)
         skip += rq_limit
         # time.sleep(1)
 
@@ -94,14 +101,12 @@ def FloodTagsAPI_refined_tweets(
     pd_tweets = pd.DataFrame()
     pd_tweets['username'] = total_user_list
     pd_tweets['tweet'] = total_tweet_list
-    pd_tweets.to_csv('pandas.csv')
-
+    pd_tweets['date'] = total_dates_list
+    pd_tweets.to_csv('temp/tweets_dataframe.csv')
 
     return pd_tweets
 
-# TODO: collect all the data into a pandas dataframe with the following information: twitter username, tweet, time of tweet, retweet yes/no
 
-#
 #print(FloodTagsAPI_refined_tweets())
 # structure of tweets is:
 # {'retweet': False,

@@ -4,7 +4,7 @@ import pandas as pd
 
 def convert_to_edgelist(pd_tweets):
     # read the file that was stored
-    # pd_tweets = pd.read_csv("pandas.csv")
+    # pd_tweets = pd.read_csv("tweets_dataframe.csv")
     pd_tweets = pd_tweets
 
     # create a column which include the found mentions in a tweet for each tweet
@@ -23,7 +23,7 @@ def convert_to_edgelist(pd_tweets):
             edge_list = edge_list.append(edge_pair)
 
     # save the dataframe to csv
-    edge_list.to_csv("edge_list.csv", index=False)
+    edge_list.to_csv("temp/edge_list.csv", index=False)
 
     return print("Edge list created and saved as csv...")
 

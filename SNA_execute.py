@@ -15,38 +15,42 @@ database.
 format for the dates is: YYYY-MM-DD
 
 possibilities for database are:
-indonesia", "fews-world", "flood", "philippines",
-"philippines-english-precise", "philippines-english-recall", "poland"
+indonesia", "fews-world", "flood", "philippines", "philippines-english-precise", "philippines-english-recall", "poland"
 '''
+
 time_of_request = str(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")) + '.000Z'
-# parser = argparse.ArgumentParser(description="Enter values for dataset request")
-# parser.add_argument('starting_date', default="2016-09-10T17:00:00.000Z", nargs='?')
-# parser.add_argument('ending_date', default=time_of_request, nargs='?')
-# parser.add_argument('database', default='indonesia', nargs='?')
-# args = parser.parse_args()
-# starting_date = args.starting_date + 'T12:00:00.000Z'
-# ending_date = args.ending_date + 'T12:00:00.000Z'
-# database = args.database
-starting_date = "2016-09-17T17:00:00.000Z"
-ending_date = time_of_request
+
+parser = argparse.ArgumentParser(description="Enter values for dataset request")
+parser.add_argument('starting_date')
+parser.add_argument('ending_date')
+parser.add_argument('database')
+args = parser.parse_args()
+
+starting_date = args.starting_date + 'T12:00:00.000Z'
+ending_date = args.ending_date + 'T12:00:00.000Z'
+database = args.database
+
+# starting_date = "2016-09-17T17:00:00.000Z"
+# ending_date = time_of_request
 # ending_date = "2016-09-15T17:00:00.000Z"
 # database = "philippines"
-database = "indonesia"
+# database = "indonesia"
 water_depth = "false"
 locations = "false"
 
-
 def full_request(start_time=starting_date, end_time=ending_date, database=database, water_depth=water_depth, locations=locations):
     start = time.time()
+    print("Requesting all data from FloodTags API between", starting_date, "and", ending_date, '...')
     pd_tweets = api_request.FloodTagsAPI_refined_tweets(
         rq_database=database,
         rq_until=end_time,
         rq_since=start_time,
         rq_hasWaterdepth=water_depth,
         rq_hasLocations=locations)
+    print('Converting data to edge list...')
     mentions_to_edgelist.convert_to_edgelist(pd_tweets)
+    print('Performing Social Network Analysis...')
     influencers = SNA_script.generate_influencers()
-
     print(influencers)
     print('It took', time.time()-start, 'seconds to complete this analysis.')
 
@@ -92,10 +96,13 @@ def request_metadata(
         r_json = json.loads(r.text)
         return r_json
 
+    print('Calling meta data for request')
     data = get_request()
     print('tweets between', start_time, 'and', end_time)
     print('number of tweets:', data['meta']['total'])
     print('server time to process:', data['meta']['processTime'])
     print('total time for request call to finish:', time.time() - start)
 
+
+request_metadata()
 full_request()
