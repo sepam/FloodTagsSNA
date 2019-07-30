@@ -1,3 +1,7 @@
+# Development and contribution
+This project is no longer under active development. Please refer to https://www.floodtags.com for latest developments on the floodtags product.
+
+
 # **FloodTags Social Network Analysis**
 
 This repository contains the scripts required for performing a basic Social Network Analysis and influencer analysis on FloodTags data. The entire analysis can be run from a single command line command, but the individual scripts can also be used independently and tied into existing workflows. The files contained do the following:
